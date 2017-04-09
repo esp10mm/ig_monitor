@@ -40,6 +40,15 @@ const monitoring = () => {
       var $ = cheerio.load(html);
       var dirty = false;
 
+      var desc = $('header span').last().text();
+      
+      if (!log.desc) { log.desc = {}; }
+      if (!log.desc[desc]) {
+        log.desc[desc] = new Date();
+        dirty = true;
+        console.log(`New Desc: ${desc}`);
+      }
+
       $('img').each((i, el) => {
         var url = el.attribs.src;
         var alt = el.attribs.alt;
@@ -58,7 +67,7 @@ const monitoring = () => {
         fs.writeFile(`${target_dir}/log.json`, JSON.stringify(log));
       }
 
-      setTimeout(monitoring, 10000);
+      setTimeout(monitoring, 5000);
     })
     .catch(function (error) {
       console.log(error);
