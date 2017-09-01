@@ -2,7 +2,7 @@ var request = require('superagent');
 var cheerio = require('cheerio');
 var fs = require('fs');
 var Nightmare = require('nightmare');       
-var nightmare = Nightmare({ show: false, 'web-preferences': {'web-security': false}});
+var nightmare = Nightmare({ show: true, 'web-preferences': {'web-security': false}});
 
 var config = require('./config');
 var target = process.argv[2];
@@ -67,7 +67,7 @@ const monitoring = () => {
         fs.writeFile(`${target_dir}/log.json`, JSON.stringify(log));
       }
 
-      setTimeout(monitoring, 5000);
+      setTimeout(monitoring, 3000);
     })
     .catch(function (error) {
       console.log(error);
@@ -77,11 +77,11 @@ const monitoring = () => {
 const login = () => {
   nightmare
     .goto('https://www.instagram.com/accounts/login/')
-    .wait('input')
-    .type('input[type="text"]', config.username)
-    .type('input[type="password"]', config.password)
-    .click('button')
-    .then(() => { setTimeout(monitoring, 5000); })
+    // .wait('input')
+    // .type('input[type="text"]', config.username)
+    // .type('input[type="password"]', config.password)
+    // .click('button')
+    .then(() => { setTimeout(monitoring, 600000); })
     .catch(function (error) {
       console.log(error);
     });
